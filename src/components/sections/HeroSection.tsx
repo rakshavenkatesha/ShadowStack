@@ -26,7 +26,7 @@ export function HeroSection() {
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
-            href="#cta"
+            href="/audit"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold transition-all hover:shadow-lg hover:shadow-indigo-500/30"
           >
             Start Your Audit

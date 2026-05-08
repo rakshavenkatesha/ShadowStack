@@ -42,7 +42,7 @@ export function Navbar() {
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <Link
-              href="#cta"
+              href="/audit"
               className="hidden sm:inline-flex px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium transition-all hover:shadow-lg hover:shadow-indigo-500/20"
             >
               Audit Your Stack

@@ -21,14 +21,14 @@ export function CTASection() {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
-              href="#"
+              href="/audit"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold transition-all hover:shadow-lg hover:shadow-indigo-500/30"
             >
               Start Your Free Audit
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              href="#"
+              href="/audit"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border/40 bg-background hover:bg-muted transition-colors"
             >
               Schedule a Demo
