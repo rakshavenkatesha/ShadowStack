@@ -5,11 +5,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { auditFormSchema, AuditFormData } from "@/lib/schemas";
 import { getAuditFormData, saveAuditFormData } from "@/lib/storage";
+import { runAudit } from "@/lib/audit/engine";
+import { saveAuditResults } from "@/lib/audit/storage";
 import { NumberInput } from "./NumberInput";
 import { UseCaseSelector } from "./UseCaseSelector";
 import { DynamicToolList } from "./DynamicToolList";
@@ -21,6 +24,7 @@ export interface AuditFormProps {
 }
 
 export function AuditForm({ onSuccess, onError }: AuditFormProps) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [isHydrated, setIsHydrated] = useState(false);
@@ -83,21 +87,29 @@ export function AuditForm({ onSuccess, onError }: AuditFormProps) {
   const onSubmit = async (data: AuditFormData) => {
     try {
       setIsLoading(true);
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
+      
+      // Save form data
       saveAuditFormData(data);
-      setSaveStatus("saved");
 
+      // Run audit engine
+      const auditResult = runAudit(data);
+
+      // Save results
+      saveAuditResults(auditResult);
+
+      // Call success callback if provided
       if (onSuccess) {
         onSuccess(data);
       }
+
+      // Navigate to results page
+      router.push("/audit/results");
     } catch (error) {
       setSaveStatus("error");
+      const err =
+        error instanceof Error ? error : new Error("Form submission failed");
       if (onError) {
-        onError(
-          error instanceof Error ? error : new Error("Form submission failed")
-        );
+        onError(err);
       }
     } finally {
       setIsLoading(false);
